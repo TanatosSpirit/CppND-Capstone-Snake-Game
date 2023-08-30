@@ -38,7 +38,7 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  font = TTF_OpenFont("arial.ttf", 25);
+  font = TTF_OpenFont("../font/arial.ttf", 25);
   if(font == nullptr){
     std::cerr << "Font was not found.\n";
     exit(EXIT_FAILURE);
