@@ -4,11 +4,13 @@
 
 Renderer::Renderer(const std::size_t screen_width,
                    const std::size_t screen_height,
-                   const std::size_t grid_width, const std::size_t grid_height)
+                   const std::size_t grid_width, const std::size_t grid_height,
+                   const int max_result)
     : screen_width(screen_width),
       screen_height(screen_height),
       grid_width(grid_width),
-      grid_height(grid_height) {
+      grid_height(grid_height),
+      max_result(max_result) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -46,10 +48,10 @@ Renderer::Renderer(const std::size_t screen_width,
 
   // Render text
   SDL_Color color = { 255, 255, 255 };
-  surface = TTF_RenderText_Solid(font,"PLAY", color);
-  texture_1 = SDL_CreateTextureFromSurface(sdl_renderer, surface);
-  surface = TTF_RenderText_Solid(font,"EXIT", color);
-  texture_2 = SDL_CreateTextureFromSurface(sdl_renderer, surface);
+  texture_1 = SDL_CreateTextureFromSurface(sdl_renderer, TTF_RenderText_Solid(font,"PLAY", color));
+  texture_2 = SDL_CreateTextureFromSurface(sdl_renderer, TTF_RenderText_Solid(font,"EXIT", color));
+  std::string top_result = std::string{"HI-SCORE "} + std::to_string(max_result);
+  texture_3 = SDL_CreateTextureFromSurface(sdl_renderer, TTF_RenderText_Solid(font, top_result.c_str(), color));
 }
 
 Renderer::~Renderer() {
@@ -106,6 +108,7 @@ void Renderer::RenderStartMenu(bool const &running){
 
   SDL_Rect message_rect_1;
   SDL_Rect message_rect_2;
+  SDL_Rect message_rect_3;
 
   message_rect_1.x = 180;
   message_rect_1.y = 370;
@@ -117,11 +120,19 @@ void Renderer::RenderStartMenu(bool const &running){
   message_rect_2.w = 300;
   message_rect_2.h = 70;
 
+  message_rect_3.x = 180;
+  message_rect_3.y = 30;
+  message_rect_3.w = 300;
+  message_rect_3.h = 90;
+
   // Update Screen
   if(SDL_RenderCopy(sdl_renderer, texture_1, NULL, &message_rect_1) < 0)
     std::cerr << "SDL_RenderCopy ERROR.\n";
 
   if(SDL_RenderCopy(sdl_renderer, texture_2, NULL, &message_rect_2) < 0)
+    std::cerr << "SDL_RenderCopy ERROR.\n";
+
+  if(SDL_RenderCopy(sdl_renderer, texture_3, NULL, &message_rect_3) < 0)
     std::cerr << "SDL_RenderCopy ERROR.\n";
 
   SDL_Rect block_1;
