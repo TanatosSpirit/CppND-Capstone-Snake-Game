@@ -18,21 +18,20 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
+  bool isChosen = false;
 
-  while(frame_count < 60){
+  while(!isChosen){
     frame_start = SDL_GetTicks();
-    renderer.RenderStartMenu();
-    frame_end = SDL_GetTicks();
+    controller.HandleInputStartMenu(running, isChosen);
+    renderer.RenderStartMenu(running);
 
-    frame_count++;
+    frame_end = SDL_GetTicks();
     frame_duration = frame_end - frame_start;
 
     if (frame_duration < target_frame_duration) {
       SDL_Delay(target_frame_duration - frame_duration);
     }
   }
-
-    frame_count = 0;
 
   while (running) {
     frame_start = SDL_GetTicks();

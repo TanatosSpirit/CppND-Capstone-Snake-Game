@@ -50,16 +50,6 @@ Renderer::Renderer(const std::size_t screen_width,
   texture_1 = SDL_CreateTextureFromSurface(sdl_renderer, surface);
   surface = TTF_RenderText_Solid(font,"EXIT", color);
   texture_2 = SDL_CreateTextureFromSurface(sdl_renderer, surface);
-
-  message_rect_1.x = 180;  //controls the rect's x coordinate
-  message_rect_1.y = 370; // controls the rect's y coordinte
-  message_rect_1.w = 300; // controls the width of the rect
-  message_rect_1.h = 70;  // controls the height of the rect
-
-  message_rect_2.x = 180;
-  message_rect_2.y = 435;
-  message_rect_2.w = 300;
-  message_rect_2.h = 70;
 }
 
 Renderer::~Renderer() {
@@ -109,9 +99,23 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_RenderPresent(sdl_renderer);
 }
 
-void Renderer::RenderStartMenu(){
+void Renderer::RenderStartMenu(bool const &running){
   // Clear screen
+  SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(sdl_renderer);
+
+  SDL_Rect message_rect_1;
+  SDL_Rect message_rect_2;
+
+  message_rect_1.x = 180;
+  message_rect_1.y = 370;
+  message_rect_1.w = 300;
+  message_rect_1.h = 70;
+
+  message_rect_2.x = 180;
+  message_rect_2.y = 435;
+  message_rect_2.w = 300;
+  message_rect_2.h = 70;
 
   // Update Screen
   if(SDL_RenderCopy(sdl_renderer, texture_1, NULL, &message_rect_1) < 0)
@@ -119,6 +123,26 @@ void Renderer::RenderStartMenu(){
 
   if(SDL_RenderCopy(sdl_renderer, texture_2, NULL, &message_rect_2) < 0)
     std::cerr << "SDL_RenderCopy ERROR.\n";
+
+  SDL_Rect block_1;
+  block_1.w = 50;
+  block_1.h = 50;
+
+  block_1.x = 110;
+  block_1.y = 380;
+
+  SDL_Rect block_2;
+  block_2.w = 50;
+  block_2.h = 50;
+
+  block_2.x = 110;
+  block_2.y = 445;
+
+  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+  if(running)
+    SDL_RenderFillRect(sdl_renderer, &block_1);
+  else
+    SDL_RenderFillRect(sdl_renderer, &block_2);
 
   SDL_RenderPresent(sdl_renderer);
 }

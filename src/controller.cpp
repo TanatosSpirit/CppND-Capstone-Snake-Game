@@ -39,3 +39,26 @@ void Controller::HandleInput(bool &running, Snake &snake) const {
     }
   }
 }
+
+void Controller::HandleInputStartMenu(bool &running, bool &isChosen) const{
+  SDL_Event e;
+  while (SDL_PollEvent(&e)) {
+    if (e.type == SDL_QUIT) {
+      running = false;
+    } else if (e.type == SDL_KEYDOWN) {
+      switch (e.key.keysym.sym) {
+        case SDLK_UP:
+          running = !running;
+          break;
+
+        case SDLK_DOWN:
+          running = !running;
+          break;
+
+        case SDLK_RETURN:
+          isChosen = true;
+          break;
+      }
+    }
+  }
+}
