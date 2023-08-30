@@ -9,8 +9,7 @@ Renderer::Renderer(const std::size_t screen_width,
     : screen_width(screen_width), screen_height(screen_height),
       grid_width(grid_width), grid_height(grid_height),
       _sdl_window(nullptr, SDL_DestroyWindow), _sdl_renderer(nullptr, SDL_DestroyRenderer),
-      _sdl_texture_1(nullptr, SDL_DestroyTexture), _sdl_texture_2(nullptr, SDL_DestroyTexture),
-      _sdl_texture_3(nullptr, SDL_DestroyTexture){
+      _start_screen() {
 
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -49,16 +48,13 @@ Renderer::Renderer(const std::size_t screen_width,
 
   // Render text
   SDL_Color color = { 255, 255, 255 };
-  _sdl_texture_1.reset(
-          SDL_CreateTextureFromSurface(
-                  _sdl_renderer.get(), TTF_RenderText_Solid(font.get(),"PLAY", color)));
-  _sdl_texture_2.reset(
-          SDL_CreateTextureFromSurface(
-                  _sdl_renderer.get(), TTF_RenderText_Solid(font.get(),"EXIT", color)));
+  _start_screen.Play(SDL_CreateTextureFromSurface(
+          _sdl_renderer.get(), TTF_RenderText_Solid(font.get(),"PLAY", color)));
+  _start_screen.Exit(SDL_CreateTextureFromSurface(
+          _sdl_renderer.get(), TTF_RenderText_Solid(font.get(),"EXIT", color)));
   std::string top_result = std::string{"HI-SCORE "} + std::to_string(max_result);
-  _sdl_texture_3.reset(
-          SDL_CreateTextureFromSurface(
-                  _sdl_renderer.get(), TTF_RenderText_Solid(font.get(), top_result.c_str(), color)));
+  _start_screen.Score(SDL_CreateTextureFromSurface(
+          _sdl_renderer.get(), TTF_RenderText_Solid(font.get(), top_result.c_str(), color)));
 }
 
 Renderer::~Renderer() {
@@ -128,13 +124,13 @@ void Renderer::RenderStartMenu(bool const &running){
   message_rect_3.h = 90;
 
   // Update Screen
-  if(SDL_RenderCopy(_sdl_renderer.get(), _sdl_texture_1.get(), NULL, &message_rect_1) < 0)
+  if(SDL_RenderCopy(_sdl_renderer.get(), _start_screen.Play(), NULL, &message_rect_1) < 0)
     std::cerr << "SDL_RenderCopy ERROR.\n";
 
-  if(SDL_RenderCopy(_sdl_renderer.get(), _sdl_texture_2.get(), NULL, &message_rect_2) < 0)
+  if(SDL_RenderCopy(_sdl_renderer.get(), _start_screen.Exit(), NULL, &message_rect_2) < 0)
     std::cerr << "SDL_RenderCopy ERROR.\n";
 
-  if(SDL_RenderCopy(_sdl_renderer.get(), _sdl_texture_3.get(), NULL, &message_rect_3) < 0)
+  if(SDL_RenderCopy(_sdl_renderer.get(), _start_screen.Score(), NULL, &message_rect_3) < 0)
     std::cerr << "SDL_RenderCopy ERROR.\n";
 
   SDL_Rect block_1;

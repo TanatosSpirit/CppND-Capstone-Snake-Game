@@ -6,6 +6,7 @@
 #include "SDL_ttf.h"
 #include "SDL.h"
 #include "snake.h"
+#include "startscreen.h"
 
 class Renderer {
  public:
@@ -20,9 +21,7 @@ class Renderer {
  private:
   std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> _sdl_window;
   std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> _sdl_renderer;
-  std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> _sdl_texture_1;
-  std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> _sdl_texture_2;
-  std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> _sdl_texture_3;
+  StartScreen _start_screen;
 
   const std::size_t screen_width;
   const std::size_t screen_height;
