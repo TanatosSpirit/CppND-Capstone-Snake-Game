@@ -20,7 +20,6 @@ class Renderer {
  private:
   std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> _sdl_window;
   std::unique_ptr<SDL_Renderer, decltype(&SDL_DestroyRenderer)> _sdl_renderer;
-  TTF_Font *_font;
   std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> _sdl_texture_1;
   std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> _sdl_texture_2;
   std::unique_ptr<SDL_Texture, decltype(&SDL_DestroyTexture)> _sdl_texture_3;

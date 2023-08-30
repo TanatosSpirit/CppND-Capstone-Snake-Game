@@ -9,8 +9,8 @@ Renderer::Renderer(const std::size_t screen_width,
     : screen_width(screen_width), screen_height(screen_height),
       grid_width(grid_width), grid_height(grid_height),
       _sdl_window(nullptr, SDL_DestroyWindow), _sdl_renderer(nullptr, SDL_DestroyRenderer),
-      _font(nullptr), _sdl_texture_1(nullptr, SDL_DestroyTexture),
-      _sdl_texture_2(nullptr, SDL_DestroyTexture), _sdl_texture_3(nullptr, SDL_DestroyTexture){
+      _sdl_texture_1(nullptr, SDL_DestroyTexture), _sdl_texture_2(nullptr, SDL_DestroyTexture),
+      _sdl_texture_3(nullptr, SDL_DestroyTexture){
 
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -39,8 +39,10 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  _font = TTF_OpenFont("../font/arial.ttf", 25);
-  if(_font == nullptr){
+  auto font = std::unique_ptr<TTF_Font, decltype(&TTF_CloseFont)>
+          (TTF_OpenFont("../font/arial.ttf", 25), TTF_CloseFont);
+
+  if(font == nullptr){
     std::cerr << "Font was not found.\n";
     exit(EXIT_FAILURE);
   }
@@ -49,18 +51,17 @@ Renderer::Renderer(const std::size_t screen_width,
   SDL_Color color = { 255, 255, 255 };
   _sdl_texture_1.reset(
           SDL_CreateTextureFromSurface(
-                  _sdl_renderer.get(), TTF_RenderText_Solid(_font,"PLAY", color)));
+                  _sdl_renderer.get(), TTF_RenderText_Solid(font.get(),"PLAY", color)));
   _sdl_texture_2.reset(
           SDL_CreateTextureFromSurface(
-                  _sdl_renderer.get(), TTF_RenderText_Solid(_font,"EXIT", color)));
+                  _sdl_renderer.get(), TTF_RenderText_Solid(font.get(),"EXIT", color)));
   std::string top_result = std::string{"HI-SCORE "} + std::to_string(max_result);
   _sdl_texture_3.reset(
           SDL_CreateTextureFromSurface(
-                  _sdl_renderer.get(), TTF_RenderText_Solid(_font, top_result.c_str(), color)));
+                  _sdl_renderer.get(), TTF_RenderText_Solid(font.get(), top_result.c_str(), color)));
 }
 
 Renderer::~Renderer() {
-  TTF_CloseFont(_font);
   TTF_Quit();
   SDL_Quit();
 }
