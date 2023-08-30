@@ -45,6 +45,7 @@ void Controller::HandleInputStartMenu(bool &running, bool &isChosen) const{
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
       running = false;
+      isChosen = true;
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_UP:
