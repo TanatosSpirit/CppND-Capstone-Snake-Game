@@ -24,7 +24,6 @@ class Renderer {
   SDL_Texture *texture_1;
   SDL_Texture *texture_2;
   SDL_Texture *texture_3;
-  int max_result;
 
   const std::size_t screen_width;
   const std::size_t screen_height;

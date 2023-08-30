@@ -1,6 +1,6 @@
 #include "recordsaver.h"
 
-RecordSaver::RecordSaver(std::string path) :_path(std::move(path)){
+RecordSaver::RecordSaver(std::string path) :_path(std::move(path)), _max_result(0) {
 }
 
 RecordSaver::~RecordSaver() {
@@ -17,6 +17,7 @@ void RecordSaver::Read(int &result) {
     {
       std::istringstream linestream(line);
       linestream >> result;
+      _max_result = result;
     }
     filestream.close();
   }
@@ -24,5 +25,17 @@ void RecordSaver::Read(int &result) {
   {
     std::ofstream outfile(_path);
     std::cout << "No results yet!" << std::endl;
+  }
+}
+
+void RecordSaver::Write(int result) {
+  if(result < _max_result)
+    return;
+
+  std::ofstream file(_path, std::ios::trunc);
+
+  if(file.is_open()){
+    file << result << '\r';
+    file.close();
   }
 }

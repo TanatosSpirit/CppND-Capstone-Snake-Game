@@ -11,9 +11,10 @@ public:
     RecordSaver(std::string path);
     ~RecordSaver();
     void Read(int &result);
-    bool Write();
+    void Write(int result);
 
 private:
     const std::string _path;
+    int _max_result;
 };
 #endif
