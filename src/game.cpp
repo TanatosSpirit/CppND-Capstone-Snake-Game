@@ -19,6 +19,21 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
+  while(frame_count < 60){
+    frame_start = SDL_GetTicks();
+    renderer.RenderStartMenu();
+    frame_end = SDL_GetTicks();
+
+    frame_count++;
+    frame_duration = frame_end - frame_start;
+
+    if (frame_duration < target_frame_duration) {
+      SDL_Delay(target_frame_duration - frame_duration);
+    }
+  }
+
+    frame_count = 0;
+
   while (running) {
     frame_start = SDL_GetTicks();
 

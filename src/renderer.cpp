@@ -15,6 +15,12 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
+  if (TTF_Init() < 0)
+  {
+    std::cerr << "SDL_TTF could not initialize.\n";
+    std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+  }
+
   // Create Window
   sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED,
                                 SDL_WINDOWPOS_CENTERED, screen_width,
@@ -31,10 +37,38 @@ Renderer::Renderer(const std::size_t screen_width,
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+
+  font = TTF_OpenFont("arial.ttf", 25);
+  if(font == nullptr){
+    std::cerr << "Font was not found.\n";
+    exit(EXIT_FAILURE);
+  }
+
+  // Render text
+  SDL_Color color = { 255, 255, 255 };
+  surface = TTF_RenderText_Solid(font,"PLAY", color);
+  texture_1 = SDL_CreateTextureFromSurface(sdl_renderer, surface);
+  surface = TTF_RenderText_Solid(font,"EXIT", color);
+  texture_2 = SDL_CreateTextureFromSurface(sdl_renderer, surface);
+
+  message_rect_1.x = 180;  //controls the rect's x coordinate
+  message_rect_1.y = 370; // controls the rect's y coordinte
+  message_rect_1.w = 300; // controls the width of the rect
+  message_rect_1.h = 70;  // controls the height of the rect
+
+  message_rect_2.x = 180;
+  message_rect_2.y = 435;
+  message_rect_2.w = 300;
+  message_rect_2.h = 70;
 }
 
 Renderer::~Renderer() {
   SDL_DestroyWindow(sdl_window);
+  TTF_CloseFont(font);
+  TTF_Quit();
+  SDL_DestroyTexture(texture_1);
+  SDL_DestroyTexture(texture_2);
+  SDL_FreeSurface(surface);
   SDL_Quit();
 }
 
@@ -72,6 +106,20 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Update Screen
+  SDL_RenderPresent(sdl_renderer);
+}
+
+void Renderer::RenderStartMenu(){
+  // Clear screen
+  SDL_RenderClear(sdl_renderer);
+
+  // Update Screen
+  if(SDL_RenderCopy(sdl_renderer, texture_1, NULL, &message_rect_1) < 0)
+    std::cerr << "SDL_RenderCopy ERROR.\n";
+
+  if(SDL_RenderCopy(sdl_renderer, texture_2, NULL, &message_rect_2) < 0)
+    std::cerr << "SDL_RenderCopy ERROR.\n";
+
   SDL_RenderPresent(sdl_renderer);
 }
 
