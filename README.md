@@ -31,20 +31,20 @@ CppND-Capstone-Snake-Game/
 
 ## Addressed Points of Project Rubric
 ### Loops, Functions, I/O
-  - The project demonstrates an understanding of C++ functions and control structures. - almost all files, e.g. RecordSaver::Read(int &result);
-  - The project reads data from a file and process the data, or the program writes data to a file. - recordsaver.cpp and renderer.cpp:42;
-  - The project accepts user input and processes the input. - The enter key is used to start game, controller.cpp:59;
+  - The project demonstrates an understanding of C++ functions and control structures. -> almost all files, e.g. RecordSaver::Read(int &result);
+  - The project reads data from a file and process the data, or the program writes data to a file. -> recordsaver.cpp and renderer.cpp:42;
+  - The project accepts user input and processes the input. -> The enter key is used to start game, controller.cpp:59;
 ### Object Oriented Programming
-  - The project uses Object Oriented Programming techniques. - All files except main.cpp contain classes;
-  - Classes use appropriate access specifiers for class members. - All classes have access specifiers;
-  - Class constructors utilize member initialization lists. - recordsaver.cpp:3, startscreen.cpp:3, renderer.cpp:9;
-  - Classes abstract implementation details from their interfaces. - e.g Read() and Write() methods of recordsaver.cpp;
-  - Classes encapsulate behavior. - All classes encapsulate behavior, e.g Renderer::RenderStartMenu(...) of renderer.cpp;
-  - Overloaded functions allow the same function to operate on different parameters. - The setters and the getters of startscreen.h;
+  - The project uses Object Oriented Programming techniques. -> All files except main.cpp contain classes;
+  - Classes use appropriate access specifiers for class members. -> All classes have access specifiers;
+  - Class constructors utilize member initialization lists. -> recordsaver.cpp:3, startscreen.cpp:3, renderer.cpp:9;
+  - Classes abstract implementation details from their interfaces. -> e.g Read() and Write() methods of recordsaver.cpp;
+  - Classes encapsulate behavior. -> All classes encapsulate behavior, e.g Renderer::RenderStartMenu(...) of renderer.cpp;
+  - Overloaded functions allow the same function to operate on different parameters. -> The setters and the getters of startscreen.h;
 ### Memory Management
-  - The project makes use of references in function declarations. - recordsaver.h:13, controller.h:9. It is used for returning value by reference.
-  - The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate. - I wrapped the raw pointers of SDL to smart pointers with a custom deleter, e.g renderer.h:22-23, startscreen.h:21-23 and their constructors.
-  - The project uses smart pointers instead of raw pointers.- Also renderer.h:22-23, startscreen.h:21-23 and their constructors.
+  - The project makes use of references in function declarations. -> recordsaver.h:13, controller.h:9. It is used for returning value by reference.
+  - The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate. -> I wrapped the raw pointers of SDL to smart pointers with a custom deleter, e.g renderer.h:22-23, startscreen.h:21-23 and their constructors.
+  - The project uses smart pointers instead of raw pointers. -> Also renderer.h:22-23, startscreen.h:21-23 and their constructors.
   
 
 ## Dependencies for Running Locally
